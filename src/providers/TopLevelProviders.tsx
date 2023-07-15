@@ -3,14 +3,15 @@ import '@rainbow-me/rainbowkit/styles.css';
 import { getDefaultWallets, RainbowKitProvider, darkTheme } from '@rainbow-me/rainbowkit';
 import { WagmiConfig, createClient, configureChains } from 'wagmi'
 import { publicProvider } from 'wagmi/providers/public'
-import { smartTradeNetworks } from './chain';
+import { polygon } from 'wagmi/chains'
+
 
 const { chains, provider } = configureChains(
-  [ smartTradeNetworks ], 
+  [ polygon ], 
   [ publicProvider() ]
 )
 
-const { connectors } = getDefaultWallets({ appName: 'STD', chains });
+const { connectors } = getDefaultWallets({ appName: 'POC Blockchain', chains });
 
 // Set up client
 const client = createClient({
