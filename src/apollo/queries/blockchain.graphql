@@ -6,3 +6,16 @@ query GetHuman {
   }
 
 }
+
+
+# Mutations
+mutation InitBlockchain($sender: String!, message: String!, signature: String!) {
+  initNewBlockchain(data: {
+    sender: $sender,
+    message: $message,
+    signature: $signature
+  }) {
+    accounts
+    values
+  }
+}
