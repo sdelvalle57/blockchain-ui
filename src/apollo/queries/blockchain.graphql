@@ -1,0 +1,8 @@
+query GetHuman {
+  human(id: "1234") {
+    name
+    appearsIn
+    homePlanet
+  }
+
+}
