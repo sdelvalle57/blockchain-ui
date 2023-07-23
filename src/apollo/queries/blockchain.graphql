@@ -1,21 +1,22 @@
 query GetHuman {
   human(id: "1234") {
     name
-    appearsIn
     homePlanet
   }
-
 }
 
 
 # Mutations
-mutation InitBlockchain($sender: String!, message: String!, signature: String!) {
+mutation InitBlockchain($sender: String!, $message: String!, $chainId: Int!, $signature: String!) {
   initNewBlockchain(data: {
     sender: $sender,
     message: $message,
+    chainId: $chainId,
     signature: $signature
   }) {
     accounts
     values
+    chainId,
+    chain
   }
 }

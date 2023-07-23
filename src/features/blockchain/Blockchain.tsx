@@ -1,7 +1,7 @@
 
 import { Alert, AlertDescription, AlertIcon, AlertTitle, Box, Button, CloseButton, Input, InputGroup, InputRightElement, StackDivider, Tag, TagLabel, TagRightIcon, VStack } from '@chakra-ui/react'
 import { useInitBlockchainMutation } from '../../apollo/__generated__/graphql';
-import { useAccount, useSigner } from 'wagmi';
+import { useAccount, useNetwork, useSigner } from 'wagmi';
 import { useState } from 'react';
 import { ethers } from 'ethers';
 import { DeleteIcon } from '@chakra-ui/icons';
@@ -10,6 +10,7 @@ function Blockchain() {
 
   const { address } = useAccount();
   const { data: signer } = useSigner();
+  const { chain } = useNetwork();
 
   const [inputValue, setInputValue] = useState("");
   const [fundingAddresses, setFundingAddresses] = useState<Array<string>>([])
@@ -22,15 +23,19 @@ function Blockchain() {
     if (signer) {
 
       try {
-        const message = JSON.stringify({ data: fundingAddresses })
+        const chainId = chain?.id as number;
+        const message = JSON.stringify({ data: fundingAddresses, chainId })
 
-        const signature = await signer.signMessage(message);
+        const signature = (await signer.signMessage(message)).substring(2);
+
+
 
         initBlockchainMutation({
           variables: {
             sender: address as string,
             message,
-            signature
+            signature,
+            chainId
           }
         })
       } catch (e: any) {
@@ -67,6 +72,8 @@ function Blockchain() {
 
   if (loading) return <div>Loading...</div>
   if (data) console.log(data.initNewBlockchain)
+  
+
   if (formError) return (
     <Alert status='error'>
       <AlertIcon />
