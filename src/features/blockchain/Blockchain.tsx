@@ -24,9 +24,16 @@ function Blockchain() {
 
       try {
         const chainId = chain?.id as number;
-        const message = JSON.stringify({ data: fundingAddresses, chainId })
+        // const message = JSON.stringify({ data: fundingAddresses, chainId })
 
-        const signature = (await signer.signMessage(message)).substring(2);
+        const message = "heelo";
+
+        console.log(message)
+
+        const signature = (await signer.signMessage(message));
+        console.log(signature)
+
+        console.log(ethers.utils.verifyMessage(message, signature))
 
 
 
@@ -34,7 +41,7 @@ function Blockchain() {
           variables: {
             sender: address as string,
             message,
-            signature,
+            signature: signature.substring(2),
             chainId
           }
         })
