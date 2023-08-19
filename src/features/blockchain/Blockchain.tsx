@@ -5,6 +5,7 @@ import { useAccount, useNetwork, useSigner } from 'wagmi';
 import { useState } from 'react';
 import { ethers } from 'ethers';
 import { DeleteIcon } from '@chakra-ui/icons';
+import { hashMessage } from 'ethers/lib/utils.js';
 
 function Blockchain() {
 
@@ -24,18 +25,9 @@ function Blockchain() {
 
       try {
         const chainId = chain?.id as number;
-        // const message = JSON.stringify({ data: fundingAddresses, chainId })
-
-        const message = "heelo";
-
-        console.log(message)
+        const message = JSON.stringify({ data: fundingAddresses, chainId })
 
         const signature = (await signer.signMessage(message));
-        console.log(signature)
-
-        console.log(ethers.utils.verifyMessage(message, signature))
-
-
 
         initBlockchainMutation({
           variables: {
